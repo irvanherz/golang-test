@@ -62,7 +62,7 @@ func hello(c echo.Context) error {
 func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
-	e.GET("/", hello)
+	e.GET("/go", hello)
 	// Start server
 	e.Logger.Fatal(e.Start(":5000"))
 	// 	var from, to int
