@@ -1,8 +1,6 @@
-package main
+package functions
 
 import (
-	"fmt"
-	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -29,21 +27,18 @@ func compareCategory(a, b string) bool {
 	}
 }
 
-func main() {
-	books_raw := "3A13 5X19 9Y20 2C18 1N20 3N20 1M21 1F14 9A21 3N21 0E13 5G14 8A23 9E22 3N14"
-
-	r := regexp.MustCompile("\\s")
-	books := r.Split(books_raw, -1)
-
-	sort.SliceStable(books, func(a, b int) bool {
-		ca, _ := strconv.Atoi(string(books[a][0]))
-		cb, _ := strconv.Atoi(string(books[b][0]))
+func SortBooks(books []string) []string {
+	res := make([]string, len(books))
+	copy(res, books)
+	sort.SliceStable(res, func(a, b int) bool {
+		ca, _ := strconv.Atoi(string(res[a][0]))
+		cb, _ := strconv.Atoi(string(res[b][0]))
 		if categories[ca] < categories[cb] {
 			return true
 		} else {
 			if ca == cb {
-				ha, _ := strconv.Atoi(string(books[a][2:4]))
-				hb, _ := strconv.Atoi(string(books[b][2:4]))
+				ha, _ := strconv.Atoi(string(res[a][2:4]))
+				hb, _ := strconv.Atoi(string(res[b][2:4]))
 				if ha > hb {
 					return true
 				}
@@ -51,7 +46,5 @@ func main() {
 		}
 		return false
 	})
-	for i := 0; i < len(books); i++ {
-		fmt.Println(books[i])
-	}
+	return res
 }

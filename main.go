@@ -1,78 +1,129 @@
 package main
 
 import (
-	"math"
-	"net/http"
+	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/irvanherz/golang-test/functions"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
 
-type Result struct {
-	From  int `json:"from"`
-	To    int `json:"to"`
-	Count int `json:"count"`
+type SuccessResponse struct {
+	Success bool        `json:"success"`
+	Data    interface{} `json:"data"`
 }
 
-func strRev(str string) string {
-	newStr := ""
-	for i := len(str); i != 0; i-- {
-		newStr += string(str[i-1])
-	}
-	return newStr
+type ErrorResponse struct {
+	Success bool   `json:"success"`
+	Error   string `json:"error"`
 }
 
-func isPalindrome(val int) bool {
-	str1 := strconv.Itoa(val)
-	str2 := strRev(str1)
-	if strings.Compare(str1, str2) == 0 {
-		return true
-	} else {
-		return false
+func soal0(c echo.Context) error {
+	type PalindromeResult struct {
+		From   int   `json:"from"`
+		To     int   `json:"to"`
+		Result []int `json:"result"`
+		Count  int   `json:"count"`
 	}
-}
 
-func findPalindrome(from, to int) int {
-	var n int
-	if from < 1 || to > int(math.Pow(10, 9)) {
-		return -1
-	}
-	for i := from; i <= to; i++ {
-		if isPalindrome(i) {
-			n++
+	from, err1 := strconv.Atoi(c.QueryParam("from"))
+	to, err2 := strconv.Atoi(c.QueryParam("to"))
+	if err1 != nil || err2 != nil {
+		r := ErrorResponse{
+			Success: false,
+			Error:   "Incomplete parameter",
 		}
+		return c.JSON(400, r)
+	} else {
+		pals := functions.GetPalindromes(from, to)
+		r := SuccessResponse{
+			Success: true,
+			Data: PalindromeResult{
+				From:   from,
+				To:     to,
+				Result: pals,
+				Count:  len(pals),
+			},
+		}
+		return c.JSON(200, r)
 	}
-	return n
 }
 
-func hello(c echo.Context) error {
-	from, _ := strconv.Atoi(c.QueryParam("from"))
-	to, _ := strconv.Atoi(c.QueryParam("to"))
-	cnt := findPalindrome(from, to)
-	r := &Result{
-		From:  from,
-		To:    to,
-		Count: cnt,
+func soal1(c echo.Context) error {
+	type SortResult struct {
+		RawInput  string   `json:"raw_input"`
+		Input     []string `json:"input"`
+		RawResult string   `json:"raw_result"`
+		Result    []string `json:"result"`
+		Count     int      `json:"count"`
 	}
-	return c.JSON(http.StatusOK, r)
+
+	raw_input := c.QueryParam("input")
+	if raw_input == "" {
+		r := ErrorResponse{
+			Success: false,
+			Error:   "Incomplete parameter",
+		}
+		return c.JSON(400, r)
+	} else {
+		raw_input = strings.TrimSpace(raw_input)
+		regex := regexp.MustCompile("\\s")
+		input := regex.Split(raw_input, -1)
+		result := functions.SortBooks(input)
+		raw_result := strings.Join(result, " ")
+		r := SuccessResponse{
+			Success: true,
+			Data: SortResult{
+				RawInput:  raw_input,
+				Input:     input,
+				RawResult: raw_result,
+				Result:    result,
+				Count:     len(result),
+			},
+		}
+		return c.JSON(200, r)
+	}
+}
+
+func soal2(c echo.Context) error {
+	type ScanResult struct {
+		Input  string `json:"input"`
+		Result []int  `json:"result"`
+		Count  int    `json:"count"`
+	}
+
+	input := c.QueryParam("input")
+	if input == "" {
+		r := ErrorResponse{
+			Success: false,
+			Error:   "Incomplete parameter",
+		}
+		return c.JSON(400, r)
+	} else {
+		mys := new(functions.Mystery)
+		mys.Init(input)
+		result := mys.Scan()
+		r := SuccessResponse{
+			Success: true,
+			Data: ScanResult{
+				Input:  input,
+				Result: result,
+				Count:  len(result),
+			},
+		}
+		return c.JSON(200, r)
+	}
 }
 
 func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
-	e.GET("/go", hello)
+	e.GET("/soal0", soal0)
+	e.GET("/soal1", soal1)
+	e.GET("/soal2", soal2)
 	// Start server
 	e.Logger.Fatal(e.Start(":5000"))
-	// 	var from, to int
-
-	// askInput:
-	// 	fmt.Print("Input two number separated by a space: ")
-	// 	_, err := fmt.Scanf("%d %d", &from, &to)
-	// 	if err != nil {
-	// 		fmt.Println("\nOops, error. Make sure you're input correct numbers")
-	// 		goto askInput
-	// 	}
-	// 	fmt.Printf("Palindrome from %d to %d: %d occurences", from, to, findPalindrome(from, to))
 }
