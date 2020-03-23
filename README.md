@@ -11,6 +11,12 @@ then `cd` to the cloned folder<br/>
 3. Run container.<br/>
 `docker run -p 5000:5000 go-dock`
 
+## Demo
+Click one of these links to see little magic
+- [Soal 0](http://35.174.3.8/go/soal0?from=1&to=100)
+- [Soal 1](http://35.174.3.8/go/soal1?input=3A13%205X19%209Y20%202C18%201N20%203N20%201M21%201F14%209A21%203N21%200E13%205G14%208A23%209E22%203N14)
+- [Soal 2](http://35.174.3.8/go/soal2?input=123457123459123460123462)
+
 ## APIs
 1. Get list of palindromes between to numbers (`from` and `to`).<br/>
 Sample usage:<br/>
