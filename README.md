@@ -2,19 +2,19 @@
 
 ## Instalation
 Setup this program using below simple steps:
-1. Clone this repo to your server.
-`git clone https://github.com/irvanherz/golang-test`
-then `cd` to the cloned folder
+1. Clone this repo to your server.<br/>
+`git clone https://github.com/irvanherz/golang-test`<br/>
+then `cd` to the cloned folder<br/>
 `cd golang-test`
-2. Build docker container
+2. Build docker container.<br/>
 `docker build . -t go-dock`
-3. Run container
+3. Run container.<br/>
 `docker run -p 5000:5000 go-dock`
 
 ## APIs
-1. Get list of palindromes between to numbers (`from` and `to`).
-Sample usage:
-`www.example.com/go/soal0?from=1&to=100`
+1. Get list of palindromes between to numbers (`from` and `to`).<br/>
+Sample usage:<br/>
+`www.example.com/go/soal0?from=1&to=100`<br/>
 Output:
 ```JSON
 {
@@ -46,9 +46,9 @@ Output:
   }
 }
 ```
-2. Sort books to the correct order.
-Sample usage
-`www.example.com/go/soal1?input=3A13 5X19 9Y20 2C18 1N20 3N20 1M21 1F14 9A21 3N21 0E13 5G14 8A23 9E22 3N14`
+2. Sort books to the correct order.<br/>
+Sample usage<br/>
+`www.example.com/go/soal1?input=3A13 5X19 9Y20 2C18 1N20 3N20 1M21 1F14 9A21 3N21 0E13 5G14 8A23 9E22 3N14`<br/>
 Output:
 ```JSON
 {
@@ -94,9 +94,9 @@ Output:
   }
 }
 ```
-3. Find missing numbers inside number sequences.
-Sample usage:
-`www.example.com/go/soal2?input=123457123459123460123462`
+3. Find missing numbers inside number sequences.<br/>
+Sample usage:<br/>
+`www.example.com/go/soal2?input=123457123459123460123462`<br/>
 Output:
 ```JSON
 {
