@@ -121,9 +121,9 @@ func soal2(c echo.Context) error {
 func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
-	e.GET("/soal0", soal0)
-	e.GET("/soal1", soal1)
-	e.GET("/soal2", soal2)
+	e.GET("/go/soal0", soal0)
+	e.GET("/go/soal1", soal1)
+	e.GET("/go/soal2", soal2)
 	// Start server
 	e.Logger.Fatal(e.Start(":5000"))
 }
