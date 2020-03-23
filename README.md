@@ -1,6 +1,6 @@
 # README
 
-## Instalation
+## Installation
 Setup this program using below simple steps:
 1. Clone this repo to your server.<br/>
 `git clone https://github.com/irvanherz/golang-test`<br/>
@@ -111,4 +111,11 @@ Output:
   }
 }
 ```
-
+## Error response
+There is only one kind of error catched by this simple program. Which is only happened when it got empty required query parameter.
+```JSON
+{
+  "success":false,
+  "error":"Incomplete parameter"
+}
+```
